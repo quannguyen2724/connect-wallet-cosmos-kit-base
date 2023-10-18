@@ -13,5 +13,4 @@ export const HeaderContainer = styled('div')`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  background-color: ${(props) => props.theme.palette.background.paper};
 `

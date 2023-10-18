@@ -42,11 +42,16 @@ const Header = () => {
   }
   const handleDisconnect = () => {
     updateWalletAddress('');
-    disconnect();
+    if (disconnect) {
+      disconnect();
+    } else {
+      console.log('Disconnect function not available');
+      // Handle the scenario when disconnect is not available
+    }
   };
 
   return (
-    <HeaderContainer>
+    <HeaderContainer className='bg-black flex'>
       <Box alignItems="center">
         <Box sx={{ width: 112, cursor: 'pointer' }}>
           <img

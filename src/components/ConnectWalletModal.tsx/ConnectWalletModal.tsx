@@ -5,8 +5,7 @@ import Keplr from 'images/keplr.png';
 import Image from 'next/image';
 import { useContext, useState } from 'react';
 import { isMobile } from 'react-device-detect';
-import { Button } from '@mui/material';
-import { CustomModal } from '.';
+import { Modal } from '@mui/material';
 import { Context } from '@/src/context';
 import { WalletModalProps, ChainWalletBase } from '@cosmos-kit/core';
 
@@ -35,7 +34,7 @@ export const ConnectWalletModal: React.FC<WalletModalProps> = ({
   };
 
   return (
-    <CustomModal open={isOpen as boolean} setOpen={setOpen as any}>
+    <Modal open={isOpen as boolean} onClose={() => setOpen(false)}>
       <div
         className={`flex w-[500px] flex-col p-5 gap-[10px] transition-all duration-300 overflow-hidden justify-start ${
           !address
@@ -86,6 +85,6 @@ export const ConnectWalletModal: React.FC<WalletModalProps> = ({
           </div>
         </div>
       </div>
-    </CustomModal>
+    </Modal>
   );
 };
