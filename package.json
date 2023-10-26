@@ -12,6 +12,7 @@
   "dependencies": {
     "@cosmjs/cosmwasm-stargate": "^0.31.1",
     "@cosmos-kit/keplr": "^2.3.9",
+    "@cosmos-kit/leap": "^2.4.3",
     "@cosmos-kit/react": "^2.8.0",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
@@ -21,7 +22,6 @@
     "@mui/material": "^5.14.12",
     "@reduxjs/toolkit": "^1.9.5",
     "chain-registry": "^1.19.0",
-    "classnames": "^2.3.2",
     "cosmos-kit": "^2.4.2",
     "encoding": "^0.1.13",
     "eslint": "8.48.0",

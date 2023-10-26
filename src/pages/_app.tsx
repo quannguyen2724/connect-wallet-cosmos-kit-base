@@ -1,4 +1,5 @@
 import React, { ReactNode, useState } from 'react';
+import { MainWalletBase } from '@cosmos-kit/core';
 import './App.css';
 import './App.scss';
 import { darkTheme, lightTheme } from '@/features/theme/theme';
@@ -14,11 +15,16 @@ import { chains, assets } from 'chain-registry';
 import CssBaseline from '@mui/material/CssBaseline';
 import { isMobile } from 'react-device-detect';
 import { wallets as c98Mobile } from 'src/services/c98MobileWallet';
+import { wallets as leapExtension } from '@cosmos-kit/leap-extension';
+import { wallets as leapMobile } from '@cosmos-kit/leap-mobile';
 import { wallets as keplrExtension } from '@cosmos-kit/keplr-extension';
 import { wallets as c98Extension } from '@cosmos-kit/coin98-extension';
 import 'src/styles/globals.scss';
 import { ConnectWalletModal } from 'components/ConnectWalletModal.tsx/ConnectWalletModal';
 import { WalletProvider } from '../context';
+
+const LeapExtension = leapExtension[0];
+const LeapMobileWallet = leapExtension[1];
 
 function App({
   Component,
@@ -36,17 +42,20 @@ function App({
 }
 
 function AppWrapper(props: AppProps & { baseUrl: string }) {
+  const wallets = isMobile
+    ? ([...c98Mobile, ...keplrExtension, ...leapExtension] as MainWalletBase[])
+    : ([
+        ...c98Extension,
+        ...keplrExtension,
+        ...leapExtension,
+    ] as MainWalletBase[]);
   return (
     <Provider store={store}>
-      <WalletProvider >
+      <WalletProvider>
         <ChainProvider
           chains={chains}
           assetLists={assets}
-          wallets={
-            isMobile
-              ? [...c98Mobile, ...keplrExtension]
-              : [...c98Extension, ...keplrExtension]
-          }
+          wallets={wallets}
           walletConnectOptions={{
             signClient: {
               projectId: '790d4c56a17b7994864e074380cfa08e',

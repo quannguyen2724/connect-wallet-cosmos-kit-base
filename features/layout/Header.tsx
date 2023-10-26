@@ -1,28 +1,35 @@
-import Link from 'next/link';
-import Image from 'next/image';
 import { useMounted } from '@/hooks';
-import { Box, Button, MenuItem, Menu, Divider, Avatar } from '@mui/material';
-import { HeaderContainer } from '@components/common/HeaderContainer';
-import ThemeSwitcher from '@/features/theme/ThemeSwitcher';
-import { Row } from '@components/common/SComponents';
+import {
+  Box,
+  Button,
+  MenuItem,
+  Menu,
+  Divider,
+  Avatar,
+  styled,
+} from '@mui/material';
 import { useContext, useState } from 'react';
-import { ConnectWalletModal } from 'components/ConnectWalletModal.tsx/ConnectWalletModal';
 import { useChain } from '@cosmos-kit/react';
 import { Context } from '@/src/context';
 import { PersonAdd, Settings, Logout } from '@mui/icons-material';
 import ListItemIcon from '@mui/material/ListItemIcon';
+import { Notifications } from '@mui/icons-material';
+import Wallet from 'images/wallet-icon.svg';
+import Copy from 'images/copy-icon.svg';
+import Image from 'next/image';
+import { CopyText } from './common/CopyText';
+import { formatAddress } from '@/utils/contract';
 
-const style = {
-  position: 'absolute' as 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-};
+const WalletButton = styled(Button)(({ theme }) => ({
+  color: '#EF6236',
+  border: '1px solid #FAFAFA',
+  padding: '10px 18px',
+  borderRadius: '6px',
+  ':hover': {
+    opacity: 0.75,
+    borderColor: '#FAFAFA',
+  },
+}));
 
 const Header = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -51,40 +58,45 @@ const Header = () => {
   };
 
   return (
-    <HeaderContainer className='bg-black flex'>
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        background: 'black',
+        padding: '32px 40px',
+      }}
+    >
       <Box alignItems="center">
         <Box sx={{ width: 112, cursor: 'pointer' }}>
           <img
-            src="/logo.png"
-            style={{ width: '40px', height: '40px' }}
+            src="/imgs/main-logo.png"
+            style={{ width: '120px', height: '30px' }}
             alt="logo"
           />
         </Box>
       </Box>
 
-      <Row $justifyContent="flex-end">
-        {/* <ThemeSwitcher />
-        <Row>
-          <Button onClick={() => handleChangeLanguage('vi')}>vi</Button>
-          <Button onClick={() => handleChangeLanguage('en')}>en</Button>
-        </Row> */}
+      <div style={{ gap: '20px' }} className="flex items-center">
+        <Notifications sx={{ fontSize: 24, color: 'white' }} />
         {walletAddress ? (
-          <Button
-            onClick={handleOpenMenu}
-            variant="outlined"
-            className="text-xs leading-[15px] font-bold"
-          >
-            {walletAddress}
-          </Button>
+          <WalletButton variant="outlined" onClick={handleOpenMenu}>
+            <div style={{ gap: '8px' }} className="flex items-center">
+              <span>{formatAddress(walletAddress)}</span>
+              <CopyText text={walletAddress}>
+                <Image src={Copy} alt="" />
+              </CopyText>
+            </div>
+          </WalletButton>
         ) : (
-          <Button
-            variant="outlined"
-            className="text-xs leading-[15px] font-bold"
-            onClick={() => connect()}
-          >
-            connect
-          </Button>
+          <WalletButton variant="outlined" onClick={() => connect()}>
+            <div style={{ gap: '8px' }} className="flex items-center">
+              <Image src={Wallet} alt="" />
+              <span>Connect wallet</span>
+            </div>
+          </WalletButton>
         )}
+
         <Menu
           anchorEl={anchorEl}
           id="account-menu"
@@ -137,8 +149,8 @@ const Header = () => {
             Disconnect
           </MenuItem>
         </Menu>
-      </Row>
-    </HeaderContainer>
+      </div>
+    </div>
   );
 };
 

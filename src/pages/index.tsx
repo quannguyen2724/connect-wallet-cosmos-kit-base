@@ -1,23 +1,22 @@
-import Layout from '@/features/layout/Layout'
-import { RedText } from '@/features/layout/common/SComponents'
-import { useTranslation } from 'react-i18next'
+import Layout from '@/features/layout/Layout';
+import { useTranslation } from 'react-i18next';
+import { HomePage } from '../view/homepage';
 
 declare global {
   interface Window {
     // ⚠️ notice that "Window" is capitalized here
-    keplr: any
-    getOfflineSigner: any
-    coin98: any
-    logoutTimeoutId: any
-    config: any
+    keplr: any;
+    getOfflineSigner: any;
+    coin98: any;
+    logoutTimeoutId: any;
+    config: any;
+    leap: any;
   }
 }
 export default function Home() {
-  const { t } = useTranslation()
-
   return (
     <Layout>
-      <RedText>{t('homepage.welcome')}</RedText>
+      <HomePage />
     </Layout>
-  )
+  );
 }
